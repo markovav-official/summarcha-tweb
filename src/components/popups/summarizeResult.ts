@@ -19,7 +19,7 @@ export default class SummarizeResult extends PopupPeer {
       const preprocessedHistory = [];
       for(const id of history.history) {
         const message: any = await self.managers.appMessagesManager.getMessageById(id);
-        if(!message.fromId) {
+        if(!message || !message.fromId) {
           continue;
         }
         const user: any = await self.managers.appPeersManager.getPeer(message.fromId);
@@ -41,7 +41,7 @@ export default class SummarizeResult extends PopupPeer {
         return;
       }
 
-      const r = await fetch('https://summarizer.markovav.ru/api/summarize', {
+      const r = await fetch('https://c0dd-185-125-202-239.ngrok-free.app/api/summarize', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
