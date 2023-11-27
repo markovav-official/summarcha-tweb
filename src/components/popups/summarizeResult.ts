@@ -13,12 +13,11 @@ export default class SummarizeResult extends PopupPeer {
       const history = await self.managers.appMessagesManager.getHistory({
         limit: amount < 0 ? 100 : amount,
         peerId: peerId,
-        threadId: threadId,
-        recursion: true
+        threadId: threadId
       });
       const preprocessedHistory = [];
       for(const id of history.history) {
-        const message: any = await self.managers.appMessagesManager.getMessageById(id);
+        const message: any = await self.managers.appMessagesManager.getMessageByPeer(peerId, id);
         if(!message || !message.fromId) {
           continue;
         }
