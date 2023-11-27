@@ -8,9 +8,9 @@ import type {Dialog} from '../lib/appManagers/appMessagesManager';
 import type {ForumTopic} from '../layer';
 import appDialogsManager, {DIALOG_LIST_ELEMENT_TAG} from '../lib/appManagers/appDialogsManager';
 import rootScope from '../lib/rootScope';
-import {ButtonMenuItemOptionsVerifiable, ButtonMenuSync} from './buttonMenu';
+import {ButtonMenuItemOptionsVerifiable} from './buttonMenu';
 import PopupDeleteDialog from './popups/deleteDialog';
-import {i18n, LangPackKey, _i18n} from '../lib/langPack';
+import {i18n, LangPackKey} from '../lib/langPack';
 import findUpTag from '../helpers/dom/findUpTag';
 import {toastNew} from './toast';
 import PopupMute from './popups/mute';
@@ -21,6 +21,8 @@ import createContextMenu from '../helpers/dom/createContextMenu';
 import PopupElement from './popups';
 import cancelEvent from '../helpers/dom/cancelEvent';
 import IS_SHARED_WORKER_SUPPORTED from '../environment/sharedWorkerSupport';
+
+import Summarize from './popups/summarize';
 
 export default class DialogsContextMenu {
   private buttons: ButtonMenuItemOptionsVerifiable[];
@@ -161,6 +163,11 @@ export default class DialogsContextMenu {
         return this.canManageTopics && !!(this.dialog as ForumTopic.forumTopic).pFlags.closed;
       }
     }, {
+      icon: 'limit_chats',
+      text: 'Summarize',
+      onClick: this.onSummarizeClick,
+      verify: () => this.peerId !== rootScope.myId
+    }, {
       icon: 'delete',
       className: 'danger',
       text: 'Delete',
@@ -243,6 +250,10 @@ export default class DialogsContextMenu {
       this.managers.appMessagesManager.markDialogUnread(peerId);
     }
   };
+
+  private onSummarizeClick = () => {
+    PopupElement.createPopup(Summarize, this.peerId, this.threadId);
+  }
 
   private onDeleteClick = () => {
     PopupElement.createPopup(PopupDeleteDialog, this.peerId, undefined, undefined, this.threadId);

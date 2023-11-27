@@ -39,7 +39,7 @@ module.exports = {
         switch: {after: false}
       }
     }],
-    'linebreak-style': ['error', 'unix'],
+    // 'linebreak-style': ['error', 'unix'],
     'eol-last': 'error',
     'indent': [
       'error', 2, {
