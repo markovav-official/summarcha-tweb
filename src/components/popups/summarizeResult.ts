@@ -19,6 +19,9 @@ export default class SummarizeResult extends PopupPeer {
       const preprocessedHistory = [];
       for(const id of history.history) {
         const message: any = await self.managers.appMessagesManager.getMessageById(id);
+        if(!message.fromId) {
+          continue;
+        }
         const user: any = await self.managers.appPeersManager.getPeer(message.fromId);
         if(!message.message) {
           continue;
